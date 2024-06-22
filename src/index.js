@@ -8,10 +8,12 @@ var basic_default = {
 
 			// extract food slug from requested URL or query parameter
 			const url = new URL(request.url);
-			const foodSlug = url.pathname.replace('/', '');
+			const params = new URLSearchParams(url.search);
 
-			// fetch data from supabase based on the food slug
-			const { data, error } = await supabase.from('nutrition_data').select('*').eq('food', foodSlug).single();
+			const food = params.get('food');
+
+			// fetch data from supabase based on the food param
+			const { data, error } = await supabase.from('nutrition_data').select('*').eq('food', food).single();
 
 			if (error) {
 				throw error;
